@@ -14,6 +14,6 @@ const assignmentSchema = new mongoose.Schema({
   },
 });
 
-const Assignment = mongoose.model('Assignment', assignmentSchema);
+const AssignmentEntry = mongoose.model('Assignment', assignmentSchema);
 
-export default Assignment;
+export default AssignmentEntry;

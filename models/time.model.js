@@ -19,6 +19,17 @@ const timeEntrySchema = new mongoose.Schema({
     }
 });
 
+// Middleware to check if assignmentId exists
+timeEntrySchema.pre('save', async function (next) {
+    const Assignment = mongoose.model('Assignment');
+    const assignmentExists = await Assignment.exists({ _id: this.assignmentId });
+    if (!assignmentExists) {
+      return next(new Error('Assignment ID does not exist'));
+    }
+    next();
+  });
+  
+
 const TimeEntry = mongoose.model("TimeEntry", timeEntrySchema);
 
 export default TimeEntry;

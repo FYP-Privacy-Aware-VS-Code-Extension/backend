@@ -93,3 +93,41 @@ export const getTimeEntriesByWeek = async (req, res, next) => {
         next(error);
     }
 };
+
+
+export const getTimeEntriesByWeekAndAssignment = async (req, res, next) => {
+ 
+    try {
+        const timeEntries = await TimeEntry.aggregate([
+            {
+                $match: {
+                    assignmentId: req.params.assignmentId, // Match assignmentId field with request parameter
+                }
+            },
+            {
+                $addFields: {
+                    week: { $isoWeek: "$createdAt" }
+                }
+            },
+            {
+                $group: {
+                    _id: "$week",
+                    totalDuration: { $sum: "$duration_minutes" }
+                }
+            },
+            {
+                $sort: { _id: 1 } // Sort by week in ascending order
+            }
+        ]);
+
+        // Format the response to be in {week: duration} format
+        const formattedEntries = timeEntries.map(entry => ({
+            week: entry._id,
+            duration_minutes: entry.totalDuration
+        }));
+
+        res.status(200).json(formattedEntries);
+    } catch (error) {
+        next(error);
+    }
+};

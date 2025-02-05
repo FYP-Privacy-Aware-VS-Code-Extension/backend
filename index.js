@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import timeRouter from './routes/time.route.js'
 import assignmentRouter from './routes/assignment.route.js'
+import debugRouter from './routes/debugging.route.js'
 const port = 3000
 
 dotenv.config();
@@ -33,6 +34,7 @@ app.get('/', (req, res) => {
 
 app.use('/api/time', timeRouter);
 app.use('/api/assignment', assignmentRouter);
+app.use('/api/debug', debugRouter);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)

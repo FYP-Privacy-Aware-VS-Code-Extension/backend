@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "nodemon index.js",
     "start": "node api/index.js",
-    "build": "npm run clean && npm run compile"
+    "build": "vite build"
   },
   "author": "",
   "license": "ISC",
